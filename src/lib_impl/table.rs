@@ -63,22 +63,14 @@ impl L2CTable {
     }
 
     pub fn metatable(&self) -> Option<&L2CTable> {
-        if self.metatable.is_null() {
-            None
-        } else {
-            unsafe {
-                Some(&*self.metatable)
-            }
+        unsafe {
+            self.metatable.as_ref()
         }
     }
 
     pub fn metatable_mut(&mut self) -> Option<&mut L2CTable> {
-        if self.metatable.is_null() {
-            None
-        } else {
-            unsafe {
-                Some(&mut *self.metatable)
-            }
+        unsafe {
+            self.metatable.as_mut()
         }
     }
 

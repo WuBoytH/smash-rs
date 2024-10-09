@@ -45,15 +45,8 @@ impl Fiber {
     }
 
     pub fn current() -> Option<&'static mut Fiber> {
-        let p_fiber = unsafe {
-            get_current_fiber()
-        };
-        if p_fiber.is_null() {
-            None
-        } else {
-            unsafe {
-                Some(&mut *p_fiber)
-            }
+        unsafe {
+            get_current_fiber().as_mut()
         }
     }
 

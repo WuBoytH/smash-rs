@@ -1,9 +1,10 @@
 #![feature(repr_simd)]
 #![feature(simd_ffi)]
 #![feature(const_trait_impl)]
-
+#![feature(pointer_byte_offsets)]
 #![allow(incomplete_features)]
 #![allow(improper_ctypes)] // For simd
+#![allow(non_snake_case)]
 pub mod app;
 pub mod cpp;
 mod lib_impl;
@@ -21,14 +22,14 @@ extern crate bitflags;
 macro_rules! size_of {
     ($ty:tt) => {
         std::mem::size_of::<$ty>()
-    }
+    };
 }
 
 #[macro_export]
 macro_rules! c_str {
     ($s:expr) => {
         [$s, "\0"].concat().as_bytes().as_ptr()
-    }
+    };
 }
 
 #[cfg(feature = "type_assert")]

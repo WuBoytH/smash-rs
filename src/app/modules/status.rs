@@ -79,7 +79,7 @@ pub(crate) struct StatusModuleVTable {
     /// 
     /// ### Behavior (Fighter, Weapon, and Item)
     /// This method will:
-    /// 1. Enable status execution and start by transitioning the fighter to [`app::StatusKind::None`]
+    /// 1. Enable status execution and start by transitioning the fighter to [`app::FighterStatusKind::None`]
     /// without clearing the control buffer.
     /// 2. Initializes all flags and status request values to non-impactful values
     /// 3. [Clears all transition terms](app::WorkModule::clear_transition_term_forbid)
@@ -89,7 +89,7 @@ pub(crate) struct StatusModuleVTable {
     /// Ends the module
     /// 
     /// ### Behavior (Fighter, Weapon, and Items)
-    /// Clears the previous status kind queue, sets current status kind to [`app::StatusKind::None`],
+    /// Clears the previous status kind queue, sets current status kind to [`app::FighterStatusKind::None`],
     /// and sets the current situation kind to [`app::SituationKind::Outfield`]
     #[offset = 0x40]
     end_module: extern "C" fn(this: &mut StatusModule),
@@ -353,7 +353,7 @@ pub(crate) struct StatusModuleVTable {
     /// for a status kind that is greater than the current length will return an invalid status kind
     /// * All previous status kinds are cleared by [`StatusModule::change_status_force_and_clear`]
     #[offset = 0x148]
-    pub prev_status_kind: extern "C" fn(this: &StatusModule, index: i32) -> i32,
+    pub prev_status_kind: extern "C" fn(this: &StatusModule, index: u32) -> i32,
 
     /// Gets the status C++ status script set from the specified status kind
     /// 
@@ -472,7 +472,7 @@ pub(crate) struct StatusModuleVTable {
     /// ### Notes
     /// This is called internally by [`StatusModule::init_settings`]
     #[offset = 0x1A8]
-    pub set_succeeds_bits: extern "C" fn(this: &mut StatusModule, succeeds_bits: u32),
+    pub set_succeeds_bit: extern "C" fn(this: &mut StatusModule, succeeds_bit: i32),
 
     /// Sets the current object's permanent succeeds bits, which are typically OR'd together with the succeeds bits
     /// when checking for flags
@@ -571,7 +571,7 @@ pub(crate) struct StatusModuleVTable {
     /// if it is invalid it will [clear all of work module](app::WorkModule::clear_all)
     /// 
     /// At this point the function will call the (pre and init statuses from lua)[app::LuaModule::call_line_status_shift] (which in turn
-    /// are expected to [initialize the status settings](StatusKind::init_settings)). If an interrupting status was set, it will
+    /// are expected to [initialize the status settings](StatusModule::init_settings)). If an interrupting status was set, it will
     /// recall the pre/init statuses one more time, after which it calls the `main`, `exec`/`exec_stop`, and `status` scripts.
     #[offset = 0x1F0]
     pub change_status: extern "C" fn(this: &mut StatusModule, status_kind: i32)

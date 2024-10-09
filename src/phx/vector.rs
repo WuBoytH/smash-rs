@@ -1,19 +1,19 @@
 use crate::*;
-use std::{fmt, ops::{Mul, Add, Sub, Neg, MulAssign, AddAssign, SubAssign, Div, DivAssign}};
+use std::{
+    fmt,
+    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
+};
 
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Debug, Default, Copy, Clone, PartialEq)]
 #[repr(C)]
 pub struct Vector2f {
     pub x: f32,
-    pub y: f32
+    pub y: f32,
 }
 
 impl Vector2f {
     pub const fn zero() -> Self {
-        Self {
-            x: 0.0,
-            y: 0.0
-        }
+        Self { x: 0.0, y: 0.0 }
     }
 
     pub fn new(x: f32, y: f32) -> Self {
@@ -33,7 +33,7 @@ impl From<lib::L2CValue> for Vector2f {
     fn from(val: lib::L2CValue) -> Self {
         Self {
             x: val["x"].get(),
-            y: val["y"].get()
+            y: val["y"].get(),
         }
     }
 }
@@ -42,7 +42,7 @@ impl From<&lib::L2CValue> for Vector2f {
     fn from(val: &lib::L2CValue) -> Self {
         Self {
             x: val["x"].get(),
-            y: val["y"].get()
+            y: val["y"].get(),
         }
     }
 }
@@ -70,7 +70,7 @@ impl From<cpp::simd::Vector2> for Vector2f {
     fn from(other: cpp::simd::Vector2) -> Self {
         Self {
             x: other.x,
-            y: other.y
+            y: other.y,
         }
     }
 }
@@ -79,7 +79,7 @@ impl Into<cpp::simd::Vector2> for Vector2f {
     fn into(self) -> cpp::simd::Vector2 {
         cpp::simd::Vector2 {
             x: self.x,
-            y: self.y
+            y: self.y,
         }
     }
 }
@@ -90,7 +90,7 @@ impl Mul<f32> for Vector2f {
     fn mul(self, rhs: f32) -> Self::Output {
         Self {
             x: self.x * rhs,
-            y: self.y * rhs
+            y: self.y * rhs,
         }
     }
 }
@@ -108,7 +108,7 @@ impl Div<f32> for Vector2f {
     fn div(self, rhs: f32) -> Self::Output {
         Self {
             x: self.x / rhs,
-            y: self.y / rhs
+            y: self.y / rhs,
         }
     }
 }
@@ -126,7 +126,7 @@ impl Add<Vector2f> for Vector2f {
     fn add(self, rhs: Vector2f) -> Self::Output {
         Self {
             x: self.x + rhs.x,
-            y: self.y + rhs.y
+            y: self.y + rhs.y,
         }
     }
 }
@@ -144,7 +144,7 @@ impl Sub<Vector2f> for Vector2f {
     fn sub(self, rhs: Vector2f) -> Self::Output {
         Self {
             x: self.x - rhs.x,
-            y: self.y - rhs.y
+            y: self.y - rhs.y,
         }
     }
 }
@@ -162,12 +162,12 @@ impl Neg for Vector2f {
     fn neg(self) -> Self::Output {
         Self {
             x: -self.x,
-            y: -self.y
+            y: -self.y,
         }
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Debug, Default, Copy, Clone, PartialEq)]
 #[repr(C)]
 pub struct Vector3f {
     pub x: f32,
@@ -180,7 +180,7 @@ impl Vector3f {
         Self {
             x: 0.0,
             y: 0.0,
-            z: 0.0
+            z: 0.0,
         }
     }
 
@@ -202,7 +202,7 @@ impl From<lib::L2CValue> for Vector3f {
         Self {
             x: val["x"].get(),
             y: val["y"].get(),
-            z: val["z"].get()
+            z: val["z"].get(),
         }
     }
 }
@@ -212,7 +212,7 @@ impl From<&lib::L2CValue> for Vector3f {
         Self {
             x: val["x"].get(),
             y: val["y"].get(),
-            z: val["z"].get()
+            z: val["z"].get(),
         }
     }
 }
@@ -232,7 +232,7 @@ impl From<cpp::simd::Vector3> for Vector3f {
         Self {
             x: other.x,
             y: other.y,
-            z: other.z
+            z: other.z,
         }
     }
 }
@@ -242,7 +242,7 @@ impl Into<cpp::simd::Vector3> for Vector3f {
         cpp::simd::Vector3 {
             x: self.x,
             y: self.y,
-            z: self.z
+            z: self.z,
         }
     }
 }
@@ -264,7 +264,7 @@ impl Mul<f32> for Vector3f {
         Self {
             x: self.x * rhs,
             y: self.y * rhs,
-            z: self.z * rhs
+            z: self.z * rhs,
         }
     }
 }
@@ -284,7 +284,7 @@ impl Div<f32> for Vector3f {
         Self {
             x: self.x / rhs,
             y: self.y / rhs,
-            z: self.z / rhs
+            z: self.z / rhs,
         }
     }
 }
@@ -304,7 +304,7 @@ impl Add<Vector3f> for Vector3f {
         Self {
             x: self.x + rhs.x,
             y: self.y + rhs.y,
-            z: self.z + rhs.z
+            z: self.z + rhs.z,
         }
     }
 }
@@ -324,7 +324,7 @@ impl Sub<Vector3f> for Vector3f {
         Self {
             x: self.x - rhs.x,
             y: self.y - rhs.y,
-            z: self.y - rhs.z
+            z: self.y - rhs.z,
         }
     }
 }
@@ -344,7 +344,7 @@ impl Neg for Vector3f {
         Self {
             x: -self.x,
             y: -self.y,
-            z: -self.z
+            z: -self.z,
         }
     }
 }
@@ -355,7 +355,7 @@ pub struct Vector4f {
     pub x: f32,
     pub y: f32,
     pub z: f32,
-    pub w: f32
+    pub w: f32,
 }
 
 impl From<lib::L2CValue> for Vector4f {
@@ -364,7 +364,7 @@ impl From<lib::L2CValue> for Vector4f {
             x: val["x"].get(),
             y: val["y"].get(),
             z: val["z"].get(),
-            w: val["w"].get()
+            w: val["w"].get(),
         }
     }
 }
@@ -375,7 +375,7 @@ impl From<&lib::L2CValue> for Vector4f {
             x: val["x"].get(),
             y: val["y"].get(),
             z: val["z"].get(),
-            w: val["w"].get()
+            w: val["w"].get(),
         }
     }
 }
@@ -397,7 +397,7 @@ impl From<cpp::simd::Vector4> for Vector4f {
             x: other.x,
             y: other.y,
             z: other.z,
-            w: other.w
+            w: other.w,
         }
     }
 }
@@ -408,7 +408,7 @@ impl Into<cpp::simd::Vector4> for Vector4f {
             x: self.x,
             y: self.y,
             z: self.z,
-            w: self.w
+            w: self.w,
         }
     }
 }
@@ -419,7 +419,7 @@ impl Vector4f {
             x: 0.0,
             y: 0.0,
             z: 0.0,
-            w: 0.0
+            w: 0.0,
         }
     }
 
@@ -439,7 +439,11 @@ impl Vector4f {
 impl fmt::Display for Vector4f {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         if f.alternate() {
-            write!(f, "<x: {}, y: {}, z: {}, w: {}>", self.x, self.y, self.z, self.w)
+            write!(
+                f,
+                "<x: {}, y: {}, z: {}, w: {}>",
+                self.x, self.y, self.z, self.w
+            )
         } else {
             write!(f, "<{}, {}, {}, {}>", self.x, self.y, self.z, self.w)
         }
@@ -454,7 +458,7 @@ impl Mul<f32> for Vector4f {
             x: self.x * rhs,
             y: self.y * rhs,
             z: self.z * rhs,
-            w: self.w * rhs
+            w: self.w * rhs,
         }
     }
 }
@@ -476,7 +480,7 @@ impl Div<f32> for Vector4f {
             x: self.x / rhs,
             y: self.y / rhs,
             z: self.z / rhs,
-            w: self.w / rhs
+            w: self.w / rhs,
         }
     }
 }
@@ -498,7 +502,7 @@ impl Add<Vector4f> for Vector4f {
             x: self.x + rhs.x,
             y: self.y + rhs.y,
             z: self.z + rhs.z,
-            w: self.w + rhs.w
+            w: self.w + rhs.w,
         }
     }
 }
@@ -520,7 +524,7 @@ impl Sub<Vector4f> for Vector4f {
             x: self.x - rhs.x,
             y: self.y - rhs.y,
             z: self.y - rhs.z,
-            w: self.w - rhs.w
+            w: self.w - rhs.w,
         }
     }
 }
@@ -542,7 +546,7 @@ impl Neg for Vector4f {
             x: -self.x,
             y: -self.y,
             z: -self.z,
-            w: -self.w
+            w: -self.w,
         }
     }
 }

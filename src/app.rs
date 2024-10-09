@@ -6,64 +6,34 @@ mod consts;
 
 mod ai_extras;
 pub mod ai;
+mod battle_object;
 mod bosses;
 pub mod camera;
 pub mod debug;
 mod events;
 pub mod fighter;
+pub mod global_parameter;
 mod items;
-mod modules;
 mod module_accessors;
+mod modules;
 mod singletons;
 pub mod smashball;
 pub mod smashballheavy;
 mod specializers;
 pub mod stage;
+pub mod sv_global_parameter;
 pub mod sv_information;
 
 pub use ai_extras::*;
+pub use battle_object::*;
 pub use bosses::*;
 pub use consts::*;
 pub use events::*;
 pub use items::*;
-pub use modules::*;
 pub use module_accessors::*;
+pub use modules::*;
 pub use singletons::*;
 pub use specializers::*;
-
-// Temporary
-#[repr(C)]
-pub struct BattleObject(u64);
-
-#[repr(C)]
-pub struct Fighter {
-    parent: BattleObject,
-    // ...
-}
-
-#[repr(C)]
-pub struct Weapon {
-    parent: BattleObject,
-    // ...
-}
-
-#[repr(C)]
-pub struct Item {
-    parent: BattleObject,
-    // ...
-}
-
-#[repr(C)]
-pub struct Gimmick {
-    parent: BattleObject,
-    // ...
-}
-
-#[repr(C)]
-pub struct Enemy {
-    parent: BattleObject,
-    // ...
-}
 
 #[repr(C)]
 pub struct FighterAIWeapon(u64);

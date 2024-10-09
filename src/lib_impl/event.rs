@@ -96,8 +96,15 @@ impl EventListenerVTable {
     }
 }
 
+static EVENT_LISTENER_VTABLE: EventListenerVTable = EventListenerVTable {
+    destructor: EventListenerVTable::destructor,
+    deleter: EventListenerVTable::deleter,
+    is_equal: EventListenerVTable::is_equal,
+    call: EventListenerVTable::call
+};
+
 #[repr(C)]
-pub(crate) struct EventListener {
+pub struct EventListener {
     vtable: &'static EventListenerVTable,
     unk: u64,
     user_data: *mut u8, // for game originated events, this is an object 9/10 times
@@ -105,11 +112,28 @@ pub(crate) struct EventListener {
     offset: u64
 }
 
+impl EventListener {
+    pub fn new<T: Sized>(function: OnEventFn, data: &mut T) -> *mut Self {
+        unsafe {
+            let ptr = skyline::libc::malloc(std::mem::size_of::<Self>() as _);
+            std::ptr::write(ptr as _, Self {
+                vtable: &EVENT_LISTENER_VTABLE,
+                unk: 0xFFFFFFFF_00000001,
+                user_data: data as *mut T as *mut u8,
+                function,
+                offset: 0
+            });
+            ptr as _
+        }
+        
+    }
+}
+
 /// A structure which helps manage events and event listeners
 /// 
 /// Anything can add event listeners here, and many different UI elements are based on this event manager
 #[repr(C)]
-pub(crate) struct EventManager {
+pub struct EventManager {
     pub event_count: u32,
     padding: u32,
     pub event_listener_lists: [*mut cpp::LinkedList<*mut EventListener>; 2],

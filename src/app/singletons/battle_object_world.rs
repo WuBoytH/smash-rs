@@ -8,25 +8,25 @@ mod impl_ {
         pub(super) static INSTANCE: *mut app::BattleObjectWorld;
 
         #[link_name = "_ZN3app8lua_bind35BattleObjectWorld__gravity_pos_implEPNS_17BattleObjectWorldE"]
-        pub(super) fn gravity_pos(this: *const app::BattleObjectWorld) -> cpp::simd::Vector3;
+        pub(super) fn gravity_pos(battle_object_world: *const app::BattleObjectWorld) -> cpp::simd::Vector3;
 
         #[link_name = "_ZN3app8lua_bind49BattleObjectWorld__gravity_speed_coefficient_implEPNS_17BattleObjectWorldE"]
-        pub(super) fn gravity_speed_coefficient(this: *const app::BattleObjectWorld) -> f32;
+        pub(super) fn gravity_speed_coefficient(battle_object_world: *const app::BattleObjectWorld) -> f32;
 
         #[link_name = "_ZN3app8lua_bind42BattleObjectWorld__is_disable_reverse_implEPNS_17BattleObjectWorldE"]
-        pub(super) fn is_disable_reverse(this: *const app::BattleObjectWorld) -> bool;
+        pub(super) fn is_disable_reverse(battle_object_world: *const app::BattleObjectWorld) -> bool;
 
         #[link_name = "_ZN3app8lua_bind41BattleObjectWorld__is_gravity_normal_implEPNS_17BattleObjectWorldE"]
-        pub(super) fn is_gravity_normal(this: *const app::BattleObjectWorld) -> bool;
+        pub(super) fn is_gravity_normal(battle_object_world: *const app::BattleObjectWorld) -> bool;
 
         #[link_name = "_ZN3app8lua_bind31BattleObjectWorld__is_move_implEPNS_17BattleObjectWorldE"]
-        pub(super) fn is_move(this: *const app::BattleObjectWorld) -> bool;
+        pub(super) fn is_move(battle_object_world: *const app::BattleObjectWorld) -> bool;
 
         #[link_name = "_ZN3app8lua_bind34BattleObjectWorld__move_speed_implEPNS_17BattleObjectWorldE"]
-        pub(super) fn move_speed(this: *const app::BattleObjectWorld) -> *const cpp::simd::Vector3;
+        pub(super) fn move_speed(battle_object_world: *const app::BattleObjectWorld) -> *const cpp::simd::Vector3;
 
         #[link_name = "_ZN3app8lua_bind31BattleObjectWorld__scale_z_implEPNS_17BattleObjectWorldE"]
-        pub(super) fn scale_z(this: *const app::BattleObjectWorld) -> f32;
+        pub(super) fn scale_z(battle_object_world: *const app::BattleObjectWorld) -> f32;
     }
 }
 
@@ -57,21 +57,13 @@ pub struct BattleObjectWorld {
 impl BattleObjectWorld {
     pub fn instance() -> Option<&'static Self> {
         unsafe {
-            if impl_::INSTANCE.is_null() {
-                None
-            } else {
-                Some(&*impl_::INSTANCE)
-            }
+            impl_::INSTANCE.as_ref()
         }
     }
 
     pub fn instance_mut() -> Option<&'static mut Self> {
         unsafe {
-            if impl_::INSTANCE.is_null() {
-                None
-            } else {
-                Some(&mut *impl_::INSTANCE)
-            }
+            impl_::INSTANCE.as_mut()
         }
     }
 
@@ -105,9 +97,9 @@ impl BattleObjectWorld {
         }
     }
 
-    pub fn move_speed(&self) -> *const phx::Vector3f {
+    pub fn move_speed(&self) -> &phx::Vector3f {
         unsafe {
-            impl_::move_speed(self) as *const phx::Vector3f
+            &*(impl_::move_speed(self) as *const phx::Vector3f)
         }
     }
 

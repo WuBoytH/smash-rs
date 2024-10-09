@@ -100,6 +100,18 @@ pub struct CutInData;
 pub struct FighterCutInManager {}
 
 impl FighterCutInManager {
+    pub fn instance() -> Option<&'static Self> {
+        unsafe {
+            impl_::INSTANCE.as_ref()
+        }
+    }
+
+    pub fn instance_mut() -> Option<&'static mut Self> {
+        unsafe {
+            impl_::INSTANCE.as_mut()
+        }
+    }
+
     pub fn is_one_on_one() -> bool {
         unsafe {
             impl_::is_one_on_one()
@@ -199,26 +211,6 @@ impl FighterCutInManager {
             impl_::set_throw_finish_zoom_rate(self, rate)
         }
     }
-
-    pub fn instance() -> Option<&'static Self> {
-        unsafe {
-            if impl_::INSTANCE.is_null() {
-                None
-            } else {
-                Some(&*impl_::INSTANCE)
-            }
-        }
-    }
-
-    pub fn instance_mut() -> Option<&'static mut Self> {
-        unsafe {
-            if impl_::INSTANCE.is_null() {
-                None
-            } else {
-                Some(&mut *impl_::INSTANCE)
-            }
-        }
-    }
 }
 
 // I don't really have a better place to put this because it's not worth one line
@@ -231,21 +223,13 @@ pub struct FighterPitBCutInTransactorFinal {
 impl FighterPitBCutInTransactorFinal {
     pub fn instance() -> Option<&'static Self> {
         unsafe {
-            if impl_::instance().is_null() {
-                None
-            } else {
-                Some(&*impl_::instance())
-            }
+            impl_::instance().as_ref()
         }
     }
 
     pub fn instance_mut() -> Option<&'static mut Self> {
         unsafe {
-            if impl_::instance().is_null() {
-                None
-            } else {
-                Some(&mut *impl_::instance())
-            }
+            impl_::instance().as_mut()
         }
     }
 }

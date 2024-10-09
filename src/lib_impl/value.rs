@@ -1,12 +1,6 @@
 use crate::*;
-use std::{
-    fmt,
-    ops::*, mem::MaybeUninit, cmp::Ordering,
-};
-use skyline::libc::{
-    c_void,
-    c_char, malloc
-};
+use skyline::libc::{c_char, c_void, malloc};
+use std::{cmp::Ordering, fmt, mem::MaybeUninit, ops::*};
 
 extern "C" {
     #[link_name = "\u{1}_ZN3lib8L2CValueC1Ev"]
@@ -151,7 +145,7 @@ extern "C" {
 #[repr(C)]
 pub struct L2CValueHack {
     value: L2CValue,
-    extra_space: [u8; 0x10]
+    extra_space: [u8; 0x10],
 }
 
 impl Into<L2CValue> for L2CValueHack {
@@ -162,10 +156,11 @@ impl Into<L2CValue> for L2CValueHack {
 }
 
 impl From<L2CValue> for L2CValueHack {
+    #[allow(invalid_value)]
     fn from(value: L2CValue) -> Self {
         Self {
             value,
-            extra_space: [0; 0x10]
+            extra_space: unsafe { std::mem::MaybeUninit::uninit().assume_init() },
         }
     }
 }
@@ -190,7 +185,7 @@ pub enum ValueType {
     Table = 5,
     InnerFunction = 6,
     Hash = 7,
-    String = 8
+    String = 8,
 }
 
 #[repr(C)]
@@ -202,14 +197,14 @@ pub union InnerData {
     pub table: *mut lib::L2CTable,
     pub inner_function: *mut lib::L2CInnerFunctionBase,
     pub hash: phx::Hash40,
-    pub c_string: *const cpp::String
+    pub c_string: *const cpp::String,
 }
 
 #[repr(C)]
 pub struct L2CValue {
     pub ty: ValueType,
     pub padding: u32,
-    pub raw: InnerData
+    pub raw: InnerData,
 }
 
 impl L2CValue {
@@ -264,11 +259,7 @@ impl L2CValue {
     pub fn try_table(&self) -> Option<&lib::L2CTable> {
         unsafe {
             if matches!(self.ty, ValueType::Table) {
-                if self.raw.table.is_null() {
-                    None
-                } else {
-                    Some(&*self.raw.table)
-                }
+                self.raw.table.as_ref()
             } else {
                 None
             }
@@ -278,11 +269,7 @@ impl L2CValue {
     pub fn try_table_mut(&mut self) -> Option<&mut lib::L2CTable> {
         unsafe {
             if matches!(self.ty, ValueType::Table) {
-                if self.raw.table.is_null() {
-                    None
-                } else {
-                    Some(&mut *self.raw.table)
-                }
+                self.raw.table.as_mut()
             } else {
                 None
             }
@@ -292,11 +279,7 @@ impl L2CValue {
     pub fn try_inner_function(&self) -> Option<&lib::L2CInnerFunctionBase> {
         unsafe {
             if matches!(self.ty, ValueType::InnerFunction) {
-                if self.raw.inner_function.is_null() {
-                    None
-                } else {
-                    Some(&mut *self.raw.inner_function)
-                }
+                self.raw.inner_function.as_ref()
             } else {
                 None
             }
@@ -347,8 +330,9 @@ impl L2CValue {
         val.into()
     }
 
-    pub fn get<'a, T>(&'a self) -> T 
-    where &'a L2CValue: Into<T>
+    pub fn get<'a, T>(&'a self) -> T
+    where
+        &'a L2CValue: Into<T>,
     {
         self.into()
     }
@@ -373,9 +357,7 @@ impl L2CValue {
     }
 
     pub fn invert(&self) -> L2CValue {
-        unsafe {
-            bit_not(self).into()
-        }
+        unsafe { bit_not(self).into() }
     }
 }
 
@@ -421,65 +403,49 @@ impl From<String> for L2CValue {
 
 impl Into<bool> for &L2CValue {
     fn into(self) -> bool {
-        unsafe {
-            as_bool(self)
-        }
+        unsafe { as_bool(self) }
     }
 }
 
 impl Into<i32> for &L2CValue {
     fn into(self) -> i32 {
-        unsafe {
-            as_integer(self) as i32
-        }
+        unsafe { as_integer(self) as i32 }
     }
 }
 
 impl Into<u32> for &L2CValue {
     fn into(self) -> u32 {
-        unsafe {
-            as_integer(self) as u32
-        }
+        unsafe { as_integer(self) as u32 }
     }
 }
 
 impl Into<i64> for &L2CValue {
     fn into(self) -> i64 {
-        unsafe {
-            as_integer(self) as i64
-        }
+        unsafe { as_integer(self) as i64 }
     }
 }
 
 impl Into<u64> for &L2CValue {
     fn into(self) -> u64 {
-        unsafe {
-            as_integer(self) as u64
-        }
+        unsafe { as_integer(self) as u64 }
     }
 }
 
 impl Into<f32> for &L2CValue {
     fn into(self) -> f32 {
-        unsafe {
-            as_number(self)
-        }
+        unsafe { as_number(self) }
     }
 }
 
 impl<T> Into<*mut T> for &L2CValue {
     fn into(self) -> *mut T {
-        unsafe {
-            as_pointer(self) as _
-        }
+        unsafe { as_pointer(self) as _ }
     }
 }
 
 impl Into<phx::Hash40> for &L2CValue {
     fn into(self) -> phx::Hash40 {
-        unsafe {
-            as_hash(self)
-        }
+        unsafe { as_hash(self) }
     }
 }
 
@@ -510,16 +476,22 @@ impl fmt::Display for L2CValue {
             ValueType::Nil => write!(f, "nil"),
             ValueType::Bool if f.alternate() => write!(f, "Bool({})", self.try_bool().unwrap()),
             ValueType::Bool => write!(f, "{}", self.try_bool().unwrap()),
-            ValueType::Integer if f.alternate() => write!(f, "Integer({})", self.try_integer().unwrap()),
+            ValueType::Integer if f.alternate() => {
+                write!(f, "Integer({})", self.try_integer().unwrap())
+            }
             ValueType::Integer => write!(f, "{}", self.try_integer().unwrap()),
-            ValueType::Number if f.alternate() => write!(f, "Number({})", self.try_float().unwrap()),
+            ValueType::Number if f.alternate() => {
+                write!(f, "Number({})", self.try_float().unwrap())
+            }
             ValueType::Number => write!(f, "{}", self.try_float().unwrap()),
-            ValueType::UserData if f.alternate() => write!(f, "UserData({:#x})", self.try_pointer().unwrap() as u64),
+            ValueType::UserData if f.alternate() => {
+                write!(f, "UserData({:#x})", self.try_pointer().unwrap() as u64)
+            }
             ValueType::UserData => write!(f, "{:#x}", self.try_pointer().unwrap() as u64),
             ValueType::Table => write!(f, "Table"),
             ValueType::InnerFunction => write!(f, "InnerFunction"),
-            ValueType::Hash => write!(f, "Hash({:#x})", self.try_hash().unwrap()),
-            ValueType::String => write!(f, "\"{}\"", self.try_string().unwrap())
+            ValueType::Hash => write!(f, "Hash({})", self.try_hash().unwrap()),
+            ValueType::String => write!(f, "\"{}\"", self.try_string().unwrap()),
         }
     }
 }
@@ -530,9 +502,7 @@ macro_rules! impl_arith_trait {
             type Output = L2CValue;
 
             fn $impl_fn_name(self, rhs: Self) -> Self::Output {
-                unsafe {
-                    $fn_name(&self, &rhs).into()
-                }
+                unsafe { $fn_name(&self, &rhs).into() }
             }
         }
 
@@ -548,9 +518,7 @@ macro_rules! impl_arith_trait {
             type Output = L2CValue;
 
             fn $impl_fn_name(self, rhs: Self) -> Self::Output {
-                unsafe {
-                    $fn_name(self, rhs).into()
-                }
+                unsafe { $fn_name(self, rhs).into() }
             }
         }
 
@@ -566,9 +534,7 @@ macro_rules! impl_arith_trait {
             type Output = L2CValue;
 
             fn $impl_fn_name(self, rhs: L2CValue) -> Self::Output {
-                unsafe {
-                    $fn_name(self, &rhs).into()
-                }
+                unsafe { $fn_name(self, &rhs).into() }
             }
         }
 
@@ -584,9 +550,7 @@ macro_rules! impl_arith_trait {
             type Output = L2CValue;
 
             fn $impl_fn_name(self, rhs: &L2CValue) -> Self::Output {
-                unsafe {
-                    $fn_name(&self, rhs).into()
-                }
+                unsafe { $fn_name(&self, rhs).into() }
             }
         }
 
@@ -597,7 +561,7 @@ macro_rules! impl_arith_trait {
                 }
             }
         }
-    }
+    };
 }
 
 macro_rules! impl_from {
@@ -611,17 +575,17 @@ macro_rules! impl_from {
                 }
             }
         }
-    }
+    };
 }
 
-impl_arith_trait!(Add,    AddAssign,    add,    add_assign,    add);
-impl_arith_trait!(Sub,    SubAssign,    sub,    sub_assign,    subtract);
-impl_arith_trait!(Mul,    MulAssign,    mul,    mul_assign,    multiply);
-impl_arith_trait!(Div,    DivAssign,    div,    div_assign,    divide);
-impl_arith_trait!(Shl,    ShlAssign,    shl,    shl_assign,    shift_left);
-impl_arith_trait!(Shr,    ShrAssign,    shr,    shr_assign,    shift_right);
-impl_arith_trait!(Rem,    RemAssign,    rem,    rem_assign,    modulo);
-impl_arith_trait!(BitOr,  BitOrAssign,  bitor,  bitor_assign,  bit_or);
+impl_arith_trait!(Add, AddAssign, add, add_assign, add);
+impl_arith_trait!(Sub, SubAssign, sub, sub_assign, subtract);
+impl_arith_trait!(Mul, MulAssign, mul, mul_assign, multiply);
+impl_arith_trait!(Div, DivAssign, div, div_assign, divide);
+impl_arith_trait!(Shl, ShlAssign, shl, shl_assign, shift_left);
+impl_arith_trait!(Shr, ShrAssign, shr, shr_assign, shift_right);
+impl_arith_trait!(Rem, RemAssign, rem, rem_assign, modulo);
+impl_arith_trait!(BitOr, BitOrAssign, bitor, bitor_assign, bit_or);
 impl_arith_trait!(BitAnd, BitAndAssign, bitand, bitand_assign, bit_and);
 impl_arith_trait!(BitXor, BitXorAssign, bitxor, bitxor_assign, bit_xor);
 
@@ -629,9 +593,7 @@ impl Neg for L2CValue {
     type Output = L2CValue;
 
     fn neg(self) -> Self::Output {
-        unsafe {
-            negate(&self).into()
-        }
+        unsafe { negate(&self).into() }
     }
 }
 
@@ -639,9 +601,7 @@ impl Neg for &L2CValue {
     type Output = L2CValue;
 
     fn neg(self) -> Self::Output {
-        unsafe {
-            negate(self).into()
-        }
+        unsafe { negate(self).into() }
     }
 }
 
@@ -649,9 +609,7 @@ impl Not for L2CValue {
     type Output = bool;
 
     fn not(self) -> Self::Output {
-        unsafe {
-            as_bool(&logic_not(&self).into())
-        }
+        unsafe { as_bool(&logic_not(&self).into()) }
     }
 }
 
@@ -659,18 +617,16 @@ impl Not for &L2CValue {
     type Output = bool;
 
     fn not(self) -> Self::Output {
-        unsafe {
-            as_bool(&logic_not(self).into())
-        }
+        unsafe { as_bool(&logic_not(self).into()) }
     }
 }
 
-impl_from!(bool,        bool_ctor);
-impl_from!(i32,         int_ctor);
-impl_from!(u32,         uint_ctor);
-impl_from!(i64,         long_ctor);
-impl_from!(u64,         ulong_ctor);
-impl_from!(f32,         float_ctor);
+impl_from!(bool, bool_ctor);
+impl_from!(i32, int_ctor);
+impl_from!(u32, uint_ctor);
+impl_from!(i64, long_ctor);
+impl_from!(u64, ulong_ctor);
+impl_from!(f32, float_ctor);
 impl_from!(phx::Hash40, hash_ctor);
 
 impl PartialOrd for L2CValue {
@@ -691,9 +647,7 @@ impl PartialOrd for L2CValue {
 
 impl PartialEq for L2CValue {
     fn eq(&self, other: &Self) -> bool {
-        unsafe {
-            equals(other, self)
-        }
+        unsafe { equals(other, self) }
     }
 }
 
@@ -726,7 +680,7 @@ macro_rules! impl_int_index {
                 }
             }
         }
-    }
+    };
 }
 
 impl_int_index!(i32);
@@ -812,7 +766,7 @@ impl Index<&str> for L2CValue {
 
     fn index(&self, index: &str) -> &Self::Output {
         unsafe {
-            let result = hash_index(self, index.into());
+            let result = hash_index(self, phx::hash40(index));
             if result.is_null() {
                 panic!("Failed to index L2CValue");
             } else {
@@ -827,7 +781,7 @@ impl Index<String> for L2CValue {
 
     fn index(&self, index: String) -> &Self::Output {
         unsafe {
-            let result = hash_index(self, index.into());
+            let result = hash_index(self, phx::hash40(&index));
             if result.is_null() {
                 panic!("Failed to index L2CValue");
             } else {
@@ -853,7 +807,7 @@ impl IndexMut<phx::Hash40> for L2CValue {
 impl IndexMut<&str> for L2CValue {
     fn index_mut(&mut self, index: &str) -> &mut Self::Output {
         unsafe {
-            let result = hash_index(self, index.into());
+            let result = hash_index(self, phx::hash40(index));
             if result.is_null() {
                 panic!("Failed to index L2CValue");
             } else {
@@ -866,7 +820,7 @@ impl IndexMut<&str> for L2CValue {
 impl IndexMut<String> for L2CValue {
     fn index_mut(&mut self, index: String) -> &mut Self::Output {
         unsafe {
-            let result = hash_index(self, index.into());
+            let result = hash_index(self, phx::hash40(&index));
             if result.is_null() {
                 panic!("Failed to index L2CValue");
             } else {

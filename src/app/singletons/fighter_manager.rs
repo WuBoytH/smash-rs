@@ -29,7 +29,7 @@ mod impl_ {
         pub(super) fn get_beat_point_diff_from_top(manager: *const app::FighterManager, entry_id: app::FighterEntryID) -> i32;
     
         #[link_name = "_ZN3app8lua_bind33FighterManager__get_entry_id_implEPNS_14FighterManagerEi"]
-        pub(super) fn get_entry_id(manager: *const app::FighterManager, entry_number: i32) -> app::FighterEntryID;
+        pub(super) fn get_entry_id(manager: *const app::FighterManager, entry_no: i32) -> app::FighterEntryID;
     
         #[link_name = "_ZN3app8lua_bind33FighterManager__get_entry_no_implEPNS_14FighterManagerENS_14FighterEntryIDE"]
         pub(super) fn get_entry_no(manager: *const app::FighterManager, entry_id: app::FighterEntryID) -> i32;
@@ -41,7 +41,7 @@ mod impl_ {
         pub(super) fn get_fighter_information(manager: *const app::FighterManager, entry_id: app::FighterEntryID) -> *mut app::FighterInformation;
     
         #[link_name = "_ZN3app8lua_bind36FighterManager__get_fighter_pos_implEPNS_14FighterManagerENS_14FighterEntryIDEi"]
-        pub(super) fn get_fighter_pos(manager: *const app::FighterManager, entry_id: app::FighterEntryID, entry_number: i32) -> cpp::simd::Vector3;
+        pub(super) fn get_fighter_pos(manager: *const app::FighterManager, entry_id: app::FighterEntryID, entry_no: i32) -> cpp::simd::Vector3;
     
         #[link_name = "_ZN3app8lua_bind45FighterManager__get_final_actor_entry_id_implEPNS_14FighterManagerE"]
         pub(super) fn get_final_actor_entry_id(manager: *const app::FighterManager) -> app::FighterEntryID;
@@ -59,7 +59,7 @@ mod impl_ {
         pub(super) fn get_top_rank_player_num(manager: *const app::FighterManager) -> u8;
     
         #[link_name = "_ZN3app8lua_bind33FighterManager__hide_finalbg_implEPNS_14FighterManagerEj"]
-        pub(super) fn hide_finalbg(manager: *mut app::FighterManager, arg: u32);
+        pub(super) fn hide_finalbg(manager: *mut app::FighterManager, arg2: u32);
     
         #[link_name = "_ZN3app8lua_bind50FighterManager__is_available_discretion_final_implEPNS_14FighterManagerE"]
         pub(super) fn is_available_discretion_final(manager: *const app::FighterManager) -> bool;
@@ -104,37 +104,37 @@ mod impl_ {
         pub(super) fn is_result_mode(manager: *const app::FighterManager) -> bool;
     
         #[link_name = "_ZN3app8lua_bind51FighterManager__notify_log_event_collision_hit_implEPNS_14FighterManagerEjjfib"]
-        pub(super) fn notify_log_event_collision_hit(manager: *mut app::FighterManager, object_id: u32, object_id2: u32, arg: f32, arg2: i32, arg3: bool);
+        pub(super) fn notify_log_event_collision_hit(manager: *mut app::FighterManager, object_id: u32, object_id2: u32, arg4: f32, arg5: i32, arg6: bool);
     
         #[link_name = "_ZN3app8lua_bind37FighterManager__one_on_one_ratio_implEPNS_14FighterManagerE"]
         pub(super) fn one_on_one_ratio(manager: *const app::FighterManager) -> f32;
     
         #[link_name = "_ZN3app8lua_bind34FighterManager__pause_finalbg_implEPNS_14FighterManagerEj"]
-        pub(super) fn pause_finalbg(manager: *mut app::FighterManager, arg: u32);
+        pub(super) fn pause_finalbg(manager: *mut app::FighterManager, arg2: u32);
     
         #[link_name = "_ZN3app8lua_bind34FighterManager__prepare_movie_implEPNS_14FighterManagerEN3phx6Hash40E"]
         pub(super) fn prepare_movie(manager: *mut app::FighterManager, path: phx::Hash40);
     
         #[link_name = "_ZN3app8lua_bind34FighterManager__reset_fighter_implEPNS_14FighterManagerEb"]
-        pub(super) fn reset_fighter(manager: *mut app::FighterManager, arg: bool);
+        pub(super) fn reset_fighter(manager: *mut app::FighterManager, arg2: bool);
     
         #[link_name = "_ZN3app8lua_bind35FighterManager__resume_finalbg_implEPNS_14FighterManagerEj"]
-        pub(super) fn resume_finalbg(manager: *mut app::FighterManager, arg: u32);
+        pub(super) fn resume_finalbg(manager: *mut app::FighterManager, arg2: u32);
     
         #[link_name = "_ZN3app8lua_bind46FighterManager__set_controller_rumble_all_implEPNS_14FighterManagerEN3phx6Hash40Eibj"]
-        pub(super) fn set_controller_rumble_all(manager: *mut app::FighterManager, rumble_kind: phx::Hash40, arg: i32, flag: bool, object_id: u32);
+        pub(super) fn set_controller_rumble_all(manager: *mut app::FighterManager, rumble_kind: phx::Hash40, arg3: i32, flag: bool, object_id: u32);
     
         #[link_name = "_ZN3app8lua_bind37FighterManager__set_cursor_whole_implEPNS_14FighterManagerEb"]
         pub(super) fn set_cursor_whole(manager: *mut app::FighterManager, whole: bool);
     
         #[link_name = "_ZN3app8lua_bind57FighterManager__set_dead_up_camera_hit_cursor_status_implEPNS_14FighterManagerEb"]
-        pub(super) fn set_dead_up_camera_hit_cursor_status(manager: *mut app::FighterManager, arg: bool);
+        pub(super) fn set_dead_up_camera_hit_cursor_status(manager: *mut app::FighterManager, arg2: bool);
     
         #[link_name = "_ZN3app8lua_bind40FighterManager__set_final_fear_face_implEPNS_14FighterManagerENS_14FighterEntryIDEi"]
         pub(super) fn set_final_fear_face(manager: *mut app::FighterManager, entry_id: app::FighterEntryID, fear_face: app::FighterFacial);
     
         #[link_name = "_ZN3app8lua_bind30FighterManager__set_final_implEPNS_14FighterManagerENS_14FighterEntryIDENS_21FighterAvailableFinalEj"]
-        pub(super) fn set_final(manager: *mut app::FighterManager, entry_id: app::FighterEntryID, available: app::FighterAvailableFinal, arg: u32);
+        pub(super) fn set_final(manager: *mut app::FighterManager, entry_id: app::FighterEntryID, available: app::FighterAvailableFinal, arg4: u32);
     
         #[link_name = "_ZN3app8lua_bind38FighterManager__set_position_lock_implEPNS_14FighterManagerENS_14FighterEntryIDEb"]
         pub(super) fn set_position_lock(manager: *mut app::FighterManager, entry_id: app::FighterEntryID, lock: bool);
@@ -143,16 +143,16 @@ mod impl_ {
         pub(super) fn set_visible_finalbg(manager: *mut app::FighterManager, visible: bool);
     
         #[link_name = "_ZN3app8lua_bind33FighterManager__show_finalbg_implEPNS_14FighterManagerEj"]
-        pub(super) fn show_finalbg(manager: *mut app::FighterManager, arg: u32);
+        pub(super) fn show_finalbg(manager: *mut app::FighterManager, arg2: u32);
     
         #[link_name = "_ZN3app8lua_bind34FighterManager__start_finalbg_implEPNS_14FighterManagerEif"]
-        pub(super) fn start_finalbg(manager: *mut app::FighterManager, arg: i32, arg2: f32);
+        pub(super) fn start_finalbg(manager: *mut app::FighterManager, arg2: i32, arg3: f32);
     
         #[link_name = "_ZN3app8lua_bind32FighterManager__start_movie_implEPNS_14FighterManagerEf"]
-        pub(super) fn start_movie(manager: *mut app::FighterManager, arg: f32);
+        pub(super) fn start_movie(manager: *mut app::FighterManager, arg2: f32);
     
         #[link_name = "_ZN3app8lua_bind48FighterManager__start_movie_on_rendering_2d_implEPNS_14FighterManagerEf"]
-        pub(super) fn start_movie_on_rendering_2d(manager: *mut app::FighterManager, arg: f32);
+        pub(super) fn start_movie_on_rendering_2d(manager: *mut app::FighterManager, arg2: f32);
     
         #[link_name = "_ZN3app8lua_bind38FighterManager__total_fighter_num_implEPNS_14FighterManagerE"]
         pub(super) fn total_fighter_num(manager: *const app::FighterManager) -> u32;
@@ -168,21 +168,13 @@ pub struct FighterManager {
 impl FighterManager {
     pub fn instance() -> Option<&'static Self> {
         unsafe {
-            if impl_::INSTANCE.is_null() {
-                None
-            } else {
-                Some(&*impl_::INSTANCE)
-            }
+            impl_::INSTANCE.as_ref()
         }
     }
 
     pub fn instance_mut() -> Option<&'static mut Self> {
         unsafe {
-            if impl_::INSTANCE.is_null() {
-                None
-            } else {
-                Some(&mut *impl_::INSTANCE)
-            }
+            impl_::INSTANCE.as_mut()
         }
     }
 
@@ -222,9 +214,9 @@ impl FighterManager {
         }
     }
 
-    pub fn get_entry_id(&self, entry_number: i32) -> app::FighterEntryID {
+    pub fn get_entry_id(&self, entry_no: i32) -> app::FighterEntryID {
         unsafe {
-            impl_::get_entry_id(self, entry_number)
+            impl_::get_entry_id(self, entry_no)
         }
     }
 
@@ -234,33 +226,33 @@ impl FighterManager {
         }
     }
 
-    pub fn get_fighter_entry<'a>(&'a self, entry_id: app::FighterEntryID) -> &'a app::FighterEntry {
+    pub fn get_fighter_entry(&self, entry_id: app::FighterEntryID) -> Option<&app::FighterEntry> {
         unsafe {
-            &*impl_::get_fighter_entry(self, entry_id)
+            impl_::get_fighter_entry(self, entry_id).as_ref()
         }
     }
 
-    pub fn get_fighter_information<'a>(&'a self, entry_id: app::FighterEntryID) -> &'a app::FighterInformation {
+    pub fn get_fighter_information(&self, entry_id: app::FighterEntryID) -> Option<&app::FighterInformation> {
         unsafe {
-            &*impl_::get_fighter_information(self, entry_id)
+            impl_::get_fighter_information(self, entry_id).as_ref()
         }
     }
 
-    pub fn get_fighter_entry_mut<'a>(&'a mut self, entry_id: app::FighterEntryID) -> &'a mut app::FighterEntry {
+    pub fn get_fighter_entry_mut(&mut self, entry_id: app::FighterEntryID) -> Option<&mut app::FighterEntry> {
         unsafe {
-            &mut *impl_::get_fighter_entry(self, entry_id)
+            impl_::get_fighter_entry(self, entry_id).as_mut()
         }
     }
 
-    pub fn get_fighter_information_mut<'a>(&'a mut self, entry_id: app::FighterEntryID) -> &'a mut app::FighterInformation {
+    pub fn get_fighter_information_mut(&mut self, entry_id: app::FighterEntryID) -> Option<&mut app::FighterInformation> {
         unsafe {
-            &mut *impl_::get_fighter_information(self, entry_id)
+            impl_::get_fighter_information(self, entry_id).as_mut()
         }
     }
 
-    pub fn get_fighter_pos(&self, entry_id: app::FighterEntryID, entry_number: i32) -> phx::Vec3 {
+    pub fn get_fighter_pos(&self, entry_id: app::FighterEntryID, entry_no: i32) -> phx::Vec3 {
         unsafe {
-            impl_::get_fighter_pos(self, entry_id, entry_number).into()
+            impl_::get_fighter_pos(self, entry_id, entry_no).into()
         }
     }
 
@@ -294,9 +286,9 @@ impl FighterManager {
         }
     }
 
-    pub fn hide_finalbg(&mut self, arg: u32) {
+    pub fn hide_finalbg(&mut self, arg2: u32) {
         unsafe {
-            impl_::hide_finalbg(self, arg)
+            impl_::hide_finalbg(self, arg2)
         }
     }
 
@@ -384,9 +376,9 @@ impl FighterManager {
         }
     }
 
-    pub fn notify_log_event_collision_hit(&mut self, object_id: u32, object_id2: u32, arg: f32, arg2: i32, arg3: bool) {
+    pub fn notify_log_event_collision_hit(&mut self, object_id: u32, object_id2: u32, arg4: f32, arg5: i32, arg6: bool) {
         unsafe {
-            impl_::notify_log_event_collision_hit(self, object_id, object_id2, arg, arg2, arg3)
+            impl_::notify_log_event_collision_hit(self, object_id, object_id2, arg4, arg5, arg6)
         }
     }
 
@@ -396,9 +388,9 @@ impl FighterManager {
         }
     }
 
-    pub fn pause_finalbg(&mut self, arg: u32) {
+    pub fn pause_finalbg(&mut self, arg2: u32) {
         unsafe {
-            impl_::pause_finalbg(self, arg)
+            impl_::pause_finalbg(self, arg2)
         }
     }
 
@@ -408,21 +400,21 @@ impl FighterManager {
         }
     }
 
-    pub fn reset_fighter(&mut self, arg: bool) {
+    pub fn reset_fighter(&mut self, arg2: bool) {
         unsafe {
-            impl_::reset_fighter(self, arg)
+            impl_::reset_fighter(self, arg2)
         }
     }
 
-    pub fn resume_finalbg(&mut self, arg: u32) {
+    pub fn resume_finalbg(&mut self, arg2: u32) {
         unsafe {
-            impl_::resume_finalbg(self, arg)
+            impl_::resume_finalbg(self, arg2)
         }
     }
 
-    pub fn set_controller_rumble_all(&mut self, rumble_kind: phx::Hash40, arg: i32, flag: bool, object_id: u32) {
+    pub fn set_controller_rumble_all(&mut self, rumble_kind: phx::Hash40, arg3: i32, flag: bool, object_id: u32) {
         unsafe {
-            impl_::set_controller_rumble_all(self, rumble_kind, arg, flag, object_id)
+            impl_::set_controller_rumble_all(self, rumble_kind, arg3, flag, object_id)
         }
     }
 
@@ -432,9 +424,9 @@ impl FighterManager {
         }
     }
 
-    pub fn set_dead_up_camera_hit_cursor_status(&mut self, arg: bool) {
+    pub fn set_dead_up_camera_hit_cursor_status(&mut self, arg2: bool) {
         unsafe {
-            impl_::set_dead_up_camera_hit_cursor_status(self, arg)
+            impl_::set_dead_up_camera_hit_cursor_status(self, arg2)
         }
     }
 
@@ -444,9 +436,9 @@ impl FighterManager {
         }
     }
 
-    pub fn set_final(&mut self, entry_id: app::FighterEntryID, available: app::FighterAvailableFinal, arg: u32) {
+    pub fn set_final(&mut self, entry_id: app::FighterEntryID, available: app::FighterAvailableFinal, arg4: u32) {
         unsafe {
-            impl_::set_final(self, entry_id, available, arg)
+            impl_::set_final(self, entry_id, available, arg4)
         }
     }
 
@@ -462,27 +454,27 @@ impl FighterManager {
         }
     }
 
-    pub fn show_finalbg(&mut self, arg: u32) {
+    pub fn show_finalbg(&mut self, arg2: u32) {
         unsafe {
-            impl_::show_finalbg(self, arg)
+            impl_::show_finalbg(self, arg2)
         }
     }
 
-    pub fn start_finalbg(&mut self, arg: i32, arg2: f32) {
+    pub fn start_finalbg(&mut self, arg2: i32, arg3: f32) {
         unsafe {
-            impl_::start_finalbg(self, arg, arg2)
+            impl_::start_finalbg(self, arg2, arg3)
         }
     }
 
-    pub fn start_movie(&mut self, arg: f32) {
+    pub fn start_movie(&mut self, arg2: f32) {
         unsafe {
-            impl_::start_movie(self, arg)
+            impl_::start_movie(self, arg2)
         }
     }
 
-    pub fn start_movie_on_rendering_2d(&mut self, arg: f32) {
+    pub fn start_movie_on_rendering_2d(&mut self, arg2: f32) {
         unsafe {
-            impl_::start_movie_on_rendering_2d(self, arg)
+            impl_::start_movie_on_rendering_2d(self, arg2)
         }
     }
 

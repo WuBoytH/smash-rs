@@ -186,7 +186,7 @@ pub(crate) struct CancelModuleVTable {
 
 /// A utility for prematurely exiting states/animations
 /// 
-/// `CancelModule` is a very simple module that supports only a handful of operations. It's main goal
+/// `CancelModule` is a very simple module that supports only a handful of operations. Its main goal
 /// is to manage whether or not a fighter is able to cancel their current animation/status by enabling
 /// and disabling various [transition groups](app::TransitionGroup) depending on the fighter's
 /// [situation kind](app::SituationKind).

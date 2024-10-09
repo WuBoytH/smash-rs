@@ -8,77 +8,123 @@ use app::*;
 #[derive(TypeAssert)]
 #[size = 0x190]
 pub struct ModuleAccessor {
-    #[offset = 0x000] event_manager:                                   lib::EventManager,
-    #[offset = 0x028] posture_module:                                  *mut Module,
-    #[offset = 0x030] status_module:                                   *mut StatusModule,
-    #[offset = 0x038] control_module:                                  *mut Module,
-    #[offset = 0x040] work_module:                                     *mut WorkModule,
-    #[offset = 0x048] ground_module:                                   *mut Module,
-    #[offset = 0x050] camera_module:                                   *mut Module,
-    #[offset = 0x058] kinetic_module:                                  *mut Module,
-    #[offset = 0x060] color_blend_module:                              *mut Module,
-    #[offset = 0x068] model_module:                                    *mut Module,
-    #[offset = 0x070] physics_module:                                  *mut Module,
-    #[offset = 0x078] motion_module:                                   *mut Module,
-    #[offset = 0x080] stop_module:                                     *mut Module,
-    #[offset = 0x088] article_module:                                  *mut Module,
-    #[offset = 0x090] attack_module:                                   *mut Module,
-    #[offset = 0x098] damage_module:                                   *mut Module,
-    #[offset = 0x0A0] hit_module:                                      *mut Module,
-    #[offset = 0x0A8] combo_module:                                    *mut Module,
-    #[offset = 0x0B0] area_module:                                     *mut Module,
-    #[offset = 0x0B8] item_module:                                     *mut Module,
-    #[offset = 0x0C0] link_module:                                     *mut Module,
-    #[offset = 0x0C8] team_module:                                     *mut Module,
-    #[offset = 0x0D0] search_module:                                   *mut Module,
-    #[offset = 0x0D8] unk_module_1:                                    *mut Module,
-    #[offset = 0x0E0] turn_module:                                     *mut Module,
-    #[offset = 0x0E8] reflect_module:                                  *mut Module,
-    #[offset = 0x0F0] shield_module:                                   *mut Module,
-    #[offset = 0x0F8] reflector_module:                                *mut Module,
-    #[offset = 0x100] absorber_module:                                 *mut Module,
-    #[offset = 0x108] jostle_module:                                   *mut Module,
-    #[offset = 0x110] catch_module:                                    *mut Module,
-    #[offset = 0x118] cancel_module:                                   *mut CancelModule,
-    #[offset = 0x120] unk_module_2:                                    *mut Module, // appears to have to do with spirits
-    #[offset = 0x128] capture_module:                                  *mut Module,
-    #[offset = 0x130] effect_module:                                   *mut Module,
-    #[offset = 0x138] sound_module:                                    *mut Module,
-    #[offset = 0x140] visibility_module:                               *mut Module,
-    #[offset = 0x148] grab_module:                                     *mut Module,
-    #[offset = 0x150] slope_module:                                    *mut Module,
-    #[offset = 0x158] shake_module:                                    *mut Module,
-    #[offset = 0x160] slow_module:                                     *mut Module,
-    #[offset = 0x168] unk_module_3:                                    *mut Module,
-    #[offset = 0x170] shadow_module:                                   *mut Module,
-    #[offset = 0x178] motion_animcmd_module:                           *mut Module,
-    #[offset = 0x180] lua_module:                                      *mut LuaModule,
-    #[offset = 0x188] ink_paint_module:                                *mut Module,
+    #[offset = 0x000]
+    event_manager: lib::EventManager,
+    #[offset = 0x028]
+    posture_module: *mut PostureModule,
+    #[offset = 0x030]
+    status_module: *mut StatusModule,
+    #[offset = 0x038]
+    control_module: *mut Module,
+    #[offset = 0x040]
+    work_module: *mut WorkModule,
+    #[offset = 0x048]
+    ground_module: *mut Module,
+    #[offset = 0x050]
+    camera_module: *mut Module,
+    #[offset = 0x058]
+    kinetic_module: *mut Module,
+    #[offset = 0x060]
+    color_blend_module: *mut Module,
+    #[offset = 0x068]
+    model_module: *mut Module,
+    #[offset = 0x070]
+    physics_module: *mut Module,
+    #[offset = 0x078]
+    motion_module: *mut Module,
+    #[offset = 0x080]
+    stop_module: *mut Module,
+    #[offset = 0x088]
+    article_module: *mut Module,
+    #[offset = 0x090]
+    attack_module: *mut Module,
+    #[offset = 0x098]
+    damage_module: *mut Module,
+    #[offset = 0x0A0]
+    hit_module: *mut Module,
+    #[offset = 0x0A8]
+    combo_module: *mut Module,
+    #[offset = 0x0B0]
+    area_module: *mut Module,
+    #[offset = 0x0B8]
+    item_module: *mut Module,
+    #[offset = 0x0C0]
+    link_module: *mut Module,
+    #[offset = 0x0C8]
+    team_module: *mut Module,
+    #[offset = 0x0D0]
+    search_module: *mut Module,
+    #[offset = 0x0D8]
+    unk_module_1: *mut Module,
+    #[offset = 0x0E0]
+    turn_module: *mut Module,
+    #[offset = 0x0E8]
+    reflect_module: *mut Module,
+    #[offset = 0x0F0]
+    shield_module: *mut Module,
+    #[offset = 0x0F8]
+    reflector_module: *mut Module,
+    #[offset = 0x100]
+    absorber_module: *mut Module,
+    #[offset = 0x108]
+    jostle_module: *mut Module,
+    #[offset = 0x110]
+    catch_module: *mut Module,
+    #[offset = 0x118]
+    cancel_module: *mut CancelModule,
+    #[offset = 0x120]
+    unk_module_2: *mut Module, // appears to have to do with spirits
+    #[offset = 0x128]
+    capture_module: *mut Module,
+    #[offset = 0x130]
+    effect_module: *mut Module,
+    #[offset = 0x138]
+    sound_module: *mut Module,
+    #[offset = 0x140]
+    visibility_module: *mut Module,
+    #[offset = 0x148]
+    grab_module: *mut Module,
+    #[offset = 0x150]
+    slope_module: *mut Module,
+    #[offset = 0x158]
+    shake_module: *mut Module,
+    #[offset = 0x160]
+    slow_module: *mut Module,
+    #[offset = 0x168]
+    unk_module_3: *mut Module,
+    #[offset = 0x170]
+    shadow_module: *mut Module,
+    #[offset = 0x178]
+    motion_animcmd_module: *mut Module,
+    #[offset = 0x180]
+    lua_module: *mut LuaModule,
+    #[offset = 0x188]
+    ink_paint_module: *mut Module,
 }
 
 impl ModuleAccessor {
+    pub fn event_manager(&mut self) -> &mut lib::EventManager {
+        &mut self.event_manager
+    }
+
+    pub fn posture<'a>(&'a self) -> &'a mut PostureModule {
+        unsafe { &mut *self.posture_module }
+    }
+
     pub fn work<'a>(&'a self) -> &'a mut WorkModule {
-        unsafe {
-            &mut *self.work_module
-        }
+        unsafe { &mut *self.work_module }
     }
 
     pub fn cancel<'a>(&'a self) -> &'a mut CancelModule {
-        unsafe {
-            &mut *self.cancel_module
-        }
+        unsafe { &mut *self.cancel_module }
     }
 
     pub fn status<'a>(&'a self) -> &'a mut StatusModule {
-        unsafe {
-            &mut *self.status_module
-        }
+        unsafe { &mut *self.status_module }
     }
 
     pub fn lua<'a>(&'a self) -> &'a mut LuaModule {
-        unsafe {
-            &mut *self.lua_module
-        }
+        unsafe { &mut *self.lua_module }
     }
 }
 
@@ -87,13 +133,12 @@ impl ModuleAccessor {
 #[derive(TypeAssert)]
 #[size = 0x38]
 pub(crate) struct BattleObjectModuleAccessorVTable {
-
     /// Checks if this module accessor is implemented
-    /// 
+    ///
     /// ### Returns
     /// * `true` - The module accessor is **not** implemented
     /// * `false` - The module accessor **is** implemented
-    /// 
+    ///
     /// ### Notes
     /// If the module accessor is not implemented, there should be no attempt to
     /// use any of its modules as if they were implemented, and there should be
